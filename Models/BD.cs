@@ -2,7 +2,7 @@ using System.Data.SqlClient;
 using Dapper; 
 
 public class BD{
-    private static string _connectionString = @"Server=.;DataBase=tp09JavaScriptYMVC;Trusted_Connection=True;";
+    private static string _connectionString = @"Server=.;A-PHZ2-CIDI-048;Trusted_Connection=True;";
     private static Usuario _UserLog = null;
 
     public static void RegistrarUsuario(Usuario user){

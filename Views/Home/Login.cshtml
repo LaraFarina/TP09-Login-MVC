@@ -1,0 +1,12 @@
+@{
+    ViewData["Title"] = "Registro";
+}
+<form method="post" action='@Url.Action("GuardarRegistro","Home")' onsubmit="return validarContraseña()">
+    <section class="form-register">
+        <h4>¡Login!</h4>
+        <input class="controls" type="email" name="Email" id="correo" placeholder="Ingrese su email" required>
+        <input class="controls" type="password" name="Contraseña" id="contrasena" placeholder="Ingrese su contraseña" required>
+        <input class="botons" type="submit" value="Loguear">
+        <p><a href="Login.cshtml">Crear cuenta</a></p>
+    </section>
+</form>

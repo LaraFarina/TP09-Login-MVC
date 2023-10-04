@@ -19,3 +19,26 @@ footer {
   bottom: 0; 
   margin: 10px 0px 20px 0px;
 }
+
+.h1-Index {
+  text-align: center;
+  font-size: 36px;
+  color: #333;
+}
+
+.p-Index {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+  margin-top: 20px;
+}
+
+.container-Index {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
