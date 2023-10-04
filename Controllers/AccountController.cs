@@ -1,14 +1,10 @@
-﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc;
 
 namespace TP09_LoginMVCyJavaScript.Controllers;
 
-public class HomeController : Controller
+public class AccountController : Controller
 {
-    public IActionResult Index()
-    {
-        return RedirectToAction("Registro");
 
-    }
     public IActionResult Login(){
         ViewBag.ListaUsuarios = BD.LoginUsuario();
         return View();
@@ -37,7 +33,7 @@ public class HomeController : Controller
         {
             BD.CrearUsuario(user);
         }
-        return RedirectToAction("PaginaBienvenida");
+        return View("PaginaBienvenida");
     }
 
 
