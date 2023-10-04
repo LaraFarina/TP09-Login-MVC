@@ -3,13 +3,12 @@
 }
 <form method="post" action='@Url.Action("GuardarRegistro","Home")' onsubmit="return validarContraseña()">
     <section class="form-register">
-        <h4>¡Registro!</h4>
+        <h4>Registro</h4>
         <input class="controls" type="text" name="UserName" id="nombres" placeholder="Ingrese su nombre" required>
         <input class="controls" type="email" name="Email" id="correo" placeholder="Ingrese su email" required>
         <input class="controls" type="password" name="Contraseña" id="contrasena" placeholder="Ingrese su contraseña" required>
         <input class="controls" type="password" name="ConfirmarContraseña" id="confirmar-contrasena" placeholder="Ingrese nuevamente su contraseña" required>
-        <input class="controls" type="text" name="Genero" id="genero" placeholder="Ingrese su genero (F/M)" required>
-        <p>Estoy de acuerdo con los<a href="#">terminos y condiciones</a></p>
+        <input class="controls" type="telefono" name="Telefono" id="Telefono" placeholder="Ingrese su telefono" required>
         <input class="botons" type="submit" value="Registrar">
         <p><a href="Login.cshtml">Ya estoy registrado.</a></p>
     </section>
