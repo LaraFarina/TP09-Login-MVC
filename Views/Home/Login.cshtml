@@ -1,13 +1,11 @@
-@{
-    ViewData["Title"] = "Registro";
-}
-<form method="post" action='@Url.Action("GuardarRegistro","Home")' onsubmit="return validarContraseña()">
-    <section class="form-register">
-        <h4>Login</h4>
-        <input class="controls" type="text" name="UserName" id="nombres" placeholder="Ingrese su nombre" required>
-        <input class="controls" type="password" name="Contraseña" id="contrasena" placeholder="Ingrese su contraseña" required>
-        <input class="botons" type="submit" value="Inciar sesion">
-        <p><a href="Registro.cshtml">Crear cuenta</a><a href="Olvide.cshtml">Olviide</a></p>
+<h1>Iniciar Sesión</h1>
 
-    </section>
+<form method="post" action='@Url.Action("GuardarRegistro","Home")' onsubmit="return validarContraseña()">
+<form asp-action="VerificarLogin" method="post">
+    <label for="NombreUsuario">Nombre de usuario:</label>
+    <input type="text" id="NombreUsuario" name="NombreUsuario" required><br>
+    <label for="Password">Contraseña:</label>
+    <input type="password" id="Password" name="Password" required><br>
+    <button type="submit">Iniciar Sesión</button>
+</form>
 </form>
