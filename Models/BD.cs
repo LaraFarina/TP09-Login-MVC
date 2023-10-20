@@ -1,49 +1,81 @@
-using System.Data.SqlClient;
-using Dapper;
+using System.Data.SqlClient; 
+using Dapper; 
 
-static class BD {
-    private static string _connectionString = 
-        @"Server=localhost;DataBase=.;Trusted_Connection=True;";
-    
-    public static void AgregarUsuario(Usuario us){
-        string SQL = "INSERT INTO Usuarios(NombreUsuario, Password, Nombre, Email, Telefono) VALUES (@pIdUsuario, @pNombreUsuario, @pPassword, @pNombre, @pEmail, @pTelefono)";
+public class BD{
+    private static string _connectionString = @"Server=.;DataBase=tp09JavaScriptYMVC;Trusted_Connection=True;";
+    private static Usuario _UserLog = null;
+
+    public static void RegistrarUsuario(Usuario user){
+        string sql = "INSERT INTO Usuario(id, UserName, Contraseña, Email, Telefono, Genero) VALUES (@pid, @pUserName, @pContraseña, @pEmail, @pTelefono, @pGenero)";
         using(SqlConnection db = new SqlConnection(_connectionString)){
-            db.Execute(SQL, new{pNombreUsuario = us.NombreUsuario, pPassword = us.Nombre, pEmail = us.Email, pTelefono = us.Telefono});
+            db.Execute(sql, new {pid = user.id, pUserName = user.UserName, pContraseña = user.Contraseña, pEmail = user.Email, pTelefono = user.Telefono, pGenero = user.Genero});
         }
     }
 
-    public static List<Usuario> ListarUsuarios(){
-        List<Usuario> ListaUsuarios;
-        string SQL = "SELECT * FROM Usuarios";
+    public static List<Usuario> LoginUsuario(){
+        List<Usuario> listaUsuarios;
         using(SqlConnection db = new SqlConnection(_connectionString)){
-            ListaUsuarios = db.Query<Usuario>(SQL).ToList();
+            string sql = "SELECT * FROM Usuario";
+            listaUsuarios = db.Query<Usuario>(sql).ToList();
         }
-        return ListaUsuarios;
+        return listaUsuarios;
+    }
+
+    public static Usuario ObtenerUsuario(){
+        return _UserLog;
+    }
+
+    public static void CrearUsuario(Usuario User)
+    {
+        int RegistrosAñadidos = 0;
+        string sql = "INSERT INTO Usuario(UserName, Contraseña, Email, Telefono, Genero) VALUES (@pName, @pContra, @pMail, @pTel, @pGen)";
+        using(SqlConnection db = new SqlConnection(_connectionString))
+        {
+            RegistrosAñadidos = db.Execute(sql, new {pName = User.UserName, pContra = User.Contraseña, pMail = User.Email, pTel = User.Telefono, pGen = User.Genero});
+        }
+        bool esValido = ValidacionUsuario(User.UserName, User.Contraseña);
+    }
+
+    public static void ActualizarContraseña(string mailUser, string contra){
+        using(SqlConnection db = new SqlConnection(_connectionString)){
+            // string sql = "UPDATE Usuario SET Contraseña = @pContra WHERE Email = @pMail";
+            string sql = "SELECT * FROM Usuario WHERE Email = @pMail";
+            Console.WriteLine("ENTRA UPDATE");
+            Usuario usuario = db.QueryFirstOrDefault<Usuario>(sql, new{pMail = mailUser});
+        }
+    }
+
+    public static bool ValidacionUsuario(string nameUser, string contra)
+    {
+        using(SqlConnection db = new SqlConnection(_connectionString))
+        {
+            string sql = "SELECT * FROM Usuario WHERE UserName = @pName and Contraseña = @pContra";
+            _UserLog = db.QueryFirstOrDefault<Usuario>(sql, new {pName = nameUser, pContra = contra});
+        }
+        return(_UserLog != null);
+    }
+
+    public static void ContraseñaActualizar(string email, string contraNueva){
+        string sql = "UPDATE Usuario SET Contraseña = @pContra where Email = @pMail";
+        using(SqlConnection db = new SqlConnection(_connectionString)){
+            db.Execute(sql, new {pContra = contraNueva, pMail = email});
+        }
     }
 
 
-    public static string OlvideContraseña(string Email, string RespuestaPersonal, int NumeroPregunta){
-        string Password = null;
+    public static Usuario VerificacionUsuarioMail(string email)
+    {
+        Usuario result;
+        string sql = "SELECT * FROM Usuario WHERE Email = @pMail";
 
-        string SQL = "SELECT * FROM Usuarios WHERE Email = @pEmail AND CONCAT(RespuestaPersonal,@pNumeroPregunta) = @pRespuestaPersonal";
-        using(SqlConnection db = new SqlConnection(_connectionString)){
-            Usuario usuario = db.QueryFirstOrDefault<Usuario>(SQL, new{ pEmail = Email,  pRespuestaPersonal = PreguntaPersonal1, pPreguntaPersonal = PreguntaPersonal2, pPreguntaPersonal = PreguntaPersonal3 });
-
-            if (usuario != null) {
-            Password = usuario.Password;
-            }
+        using (SqlConnection db = new SqlConnection(_connectionString))
+        {
+            result = db.QueryFirstOrDefault<Usuario>(sql, new { pMail = email });
         }
-
-        return Password;
+        return result;
     }
 
-    public static Usuario EncontrarUsuario(string NombreUsuario){
-        string SQL = "SELECT * FROM Usuarios WHERE NombreUsuario = @pNombreUsuario";
-        using(SqlConnection db = new SqlConnection(_connectionString)){
-            Usuario usuario = db.QueryFirstOrDefault<Usuario>(SQL, new{ pNombreUsuario = NombreUsuario });
-        }
 
-        return usuario;
-    }
-    
+
+
 }

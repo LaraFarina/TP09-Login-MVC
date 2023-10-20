@@ -1,11 +1,16 @@
-<h1>Iniciar Sesión</h1>
+@{
+    ViewData["Title"] = "Login";
+}
 
-<form method="post" action='@Url.Action("GuardarRegistro","Home")' onsubmit="return validarContraseña()">
-<form asp-action="VerificarLogin" method="post">
-    <label for="NombreUsuario">Nombre de usuario:</label>
-    <input type="text" id="NombreUsuario" name="NombreUsuario" required><br>
-    <label for="Password">Contraseña:</label>
-    <input type="password" id="Password" name="Password" required><br>
-    <button type="submit">Iniciar Sesión</button>
-</form>
+<form method="post" action='@Url.Action("SesionIniciada","Account")'>
+    <section class="form-register">
+        <h4>Iniciar Sesión</h4>
+        <input class="controls" type="text" name="NombreUsuario" id="nombres" placeholder="Ingrese su nombre de usuario">
+        <input class="controls" type="password" name="Contraseña" id="correo" placeholder="Ingrese su contraseña">
+        <p>@ViewBag.Error</p>
+        <input class="botons" type="submit" value="Iniciar Sesión">
+        <p><a href='@Url.Action("Registro","Account")'>¿No tienes cuenta? Crear cuenta</a></p>
+        <p><a href='@Url.Action("Olvide","Account")'>¿Has olvidado tu contraseña? Recuperar contraseña</a></p>
+
+    </section>
 </form>

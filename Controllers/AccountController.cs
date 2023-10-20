@@ -1,86 +1,94 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace TP09.Controllers;
+namespace TP09_LoginMVCyJavaScript.Controllers;
 
-public class HomeController : Controller
+public class AccountController : Controller
 {
-    public IActionResult Login()
-    {
+
+    public IActionResult Login(){
+        ViewBag.ListaUsuarios = BD.LoginUsuario();
+        ViewBag.Usuario = BD.ObtenerUsuario();
+        ViewBag.error = "";
         return View();
     }
 
-    public IActionResult VerificarLogin(string NombreUsuario, string Password){
-        int i = 0;
-        ViewBag.Igual = true;
-        bool nombreUsarioIne = true;
-        List<Usuario> ListaUsuarios = BD.ListarUsuarios();
-
-        while(i < ListaUsuarios.Count && ViewBag.Igual){
-           
-            if(ListaUsuarios[i].NombreUsuario == NombreUsuario){
-                nombreUsarioIne = true;
-                if(ListaUsuarios[i].Password != Password){
-                    ViewBag.Igual = false;
-                }
-            }
-            else{
-                nombreUsarioIne = false;
-            }
-            
-            i++;
-        }
-
-        if(nombreUsarioIne && ViewBag.Igual){
-            return RedirectToAction("Bienvenida, { us.NombreUsuario }");
-        }
-        else{
-            return View("Login");
-        }
+    public IActionResult Registro(){
+        ViewBag.Usuario = BD.ObtenerUsuario();
+        return View();
     }
 
-    public IActionResult VerificarRegistro(Usuario us){
-        List<Usuario> ListaUsuarios = BD.ListarUsuarios();
-        int i = 0;
-        ViewBag.NUIgual = false;
-        ViewBag.EIgual = false;
-        while(i < ListaUsuarios.Count && !ViewBag.NUIgual && !ViewBag.PIgual){
-            if(ListaUsuarios[i].NombreUsuario == us.NombreUsuario){
-                ViewBag.NUIgual = true;
-            }
-            if(ListaUsuarios[i].Email == us.Email){
-                ViewBag.EIgual = true;
-            }
-            i++;
-        }
-        if(i == ListaUsuarios.Count){
-           return RedirectToAction("GuardarUsuario , { us }"); 
-        }
-        else{
+    // public IActionResult Registración(Usuario user){
+    //     BD.CrearUsuario(user);
+    //     ViewBag.Usuario = BD.ObtenerUsuario();
+    //     return View("PaginaBienvenida");
+    // }
+
+
+
+    public IActionResult GuardarRegistro(Usuario user){
+        if (user.id == -1)
+        {
+            ViewBag.Error = "Error. Nombre no ingresado o Contraseña incorrecta";
+            ViewBag.ListaCursos = BD.ObtenerUsuario();
             return View("Registro");
+        } else
+        {
+            BD.CrearUsuario(user);
         }
-        
+        return RedirectToAction("Pbienvenida", "Account");
     }
 
-    public IActionResult AgregarUsuario(){
-        return View();
-    }
-
-    [HttpPost] public IActionResult GuardarUsuario(Usuario us){
-        BD.AgregarUsuario(us);
-        return View("Login");
-    }
-
-    public IActionResult Olvide(string Email, string PreguntaPersonal)
+    [HttpPost]
+    public IActionResult SesionIniciada(string NombreUsuario, string Contraseña)
     {
-        ViewBag.PasswordOlvidado = BD.OlvideContraseña(Email, PreguntaPersonal);
+        if(BD.ValidacionUsuario(NombreUsuario,Contraseña))
+        {
+            ViewBag.Usuario = BD.ObtenerUsuario();
+            Console.WriteLine("pasobien");
+            ViewBag.destacado = "Account";
+            return RedirectToAction("Pbienvenida", "Account");
+        }
+        else
+        {
+            ViewBag.Usuario = BD.ObtenerUsuario();
+            Console.WriteLine("pasomal");
+            ViewBag.error = "Nombre de usuario o contraseña no válido. Intentá de nuevo.";
+            return View("Login", "Account");
+        }  
+    }
+
+
+
+
+    public IActionResult Olvide(){
+        ViewBag.Usuario = BD.ObtenerUsuario();
         return View();
     }
 
-    public IActionResult Bienvenida(string NombreUsuario){
+    public IActionResult OlvideLaContraseña(string mailUser, string contra){
+        Usuario usuarioVerificado = BD.VerificacionUsuarioMail(mailUser);
+        if(usuarioVerificado == null){
+            Console.WriteLine("Entro error verificacion");
+            // ViewBag.MensajeError = "Ese nombre de usuario no existe";
+            return View("Olvide", "Account");
+        }
+        else
+        {
+            Console.WriteLine("NUEVA CONTRASEÑA: " + contra);
+            BD.ContraseñaActualizar(mailUser, contra);
+            return View("Login", "Account");
+        }
+
+        // BD.ActualizarContraseña(mailUser,contra);
+        // return View("Login", "Account");
+    }
+
+    
+
+    public IActionResult PaginaBienvenida(){
 
         return View();
     }
-
 
 
 

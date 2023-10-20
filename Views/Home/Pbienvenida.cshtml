@@ -1,5 +1,9 @@
 @{
-    ViewData["Title"] = "Bienvenida";
+    ViewData["Title"] = "Pagina Bienvenida";
 }
-
-<h1>Bienvenida, @ViewData["NombreUsuario"]</h1>
+<ul>
+    <li>Hola, @ViewBag.Usuario.NombreUsuario</li>
+    <li>@ViewBag.Usuario.Nombre</li>
+    <li>@ViewBag.Usuario.Email</li>
+    <li>@ViewBag.Usuario.Telefono</li>
+</ul>

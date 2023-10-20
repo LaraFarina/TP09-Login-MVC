@@ -1,11 +1,11 @@
 using System.Data.SqlClient; 
 using Dapper; 
 
-static class Usuario {
-    public int IdUsuario { get; set; }
-    public string NombreUsuario { get; set; }
-    public string Password { get; set; }
-    public string Nombre { get; set; }
-    public string Email { get; set; }
-    public string Telefono { get; set; }
+public class Usuario{
+    public int id{get;set;}
+    public string UserName{get;set;}
+    public string Contraseña{get;set;}
+    public string Email{get;set;}
+    public char Genero{get;set;}
+    public int Telefono{get;set;}
 }

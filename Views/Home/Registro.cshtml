@@ -1,15 +1,24 @@
 @{
-    ViewData["Title"] = "Registro de Usuario";
+    ViewData["Title"] = "Registro";
 }
+<form method="post" action='@Url.Action("GuardarRegistro","Account")'>
+    <section class="form-register">
+        <h4>Registrate</h4>
+        <input class="controls" type="text" name="UserName" id="nombres" placeholder="Ingrese su nombre">
+        <input class="controls" type="email" name="Email" id="correo" placeholder="Ingrese su email">
+        <input class="controls" type="password" name="Contraseña" id="password" onsubmit = ConfirmarRegistro() placeholder="Ingrese su contraseña">
+        <div class="alert alert-info" role="alert" style="padding:.25rem .75rem;margin-top:5px;">
+            <span style="color: red;" id="mensajeB"> La contreña debe contener al menos una mayuscula.</span><br>
+            <span style="color: red;" id="mensajeA"> La contreña debe contener al menos 8 caracteres.</span><br>
+            <span style="color: red;" id="mensajeC"> La contreña debe contener al menos un caracter especial.</span>
+        </div>
 
-<h1>Registro de Usuario</h1>
-
-<form asp-action="VerificarRegistro" method="post">
-    <label for="NombreUsuario">Nombre de usuario:</label>
-    <input type="text" id="NombreUsuario" name="NombreUsuario" required><br>
-    <label for="Password">Contraseña:</label>
-    <input type="password" id="Password" name="Password" required><br>
-    <label for="ConfirmPassword">Confirmar Contraseña:</label>
-    <input type="password" id="ConfirmPassword" name="ConfirmPassword" required><br>
-    <button type="submit">Registrar</button>
+        <input class="controls" type="password" name="Contraseña" id="password" placeholder="Ingrese nuevamente su contraseña">
+        <input class="controls" type="text" name="Telefono" id="correo" placeholder="Ingrese su teléfono">
+        <input class="controls" type="text" name="Genero" id="nombres" placeholder="Ingrese su genero (F/M)">
+        <p>Estoy de acuerdo con los <a href="#">Terminos y Condiciones</a></p>
+        <input class="botons" type="submit" value="Registrar">
+        <p><a href='@Url.Action("Login","Account")'>¿Ya tengo cuenta? Iniciar sesión.</a></p>
+        <p><a href='@Url.Action("Olvide","Account")'>¿Te olvidaste tu contraseña? Recuperar contraseña.</a></p>
+    </section>
 </form>

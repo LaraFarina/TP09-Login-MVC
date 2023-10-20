@@ -1,9 +1,9 @@
-namespace TP09-Login MVC.Models;
-
-public class ErrorViewModel
+namespace TP09_Login_MVC.Models
 {
-    public string? RequestId { get; set; }
+    public class ErrorViewModel
+    {
+        public string RequestId { get; set; }
 
-    public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+        public bool ShowRequestId => !string.IsNullOrEmpty(RequestId);
+    }
 }
-
